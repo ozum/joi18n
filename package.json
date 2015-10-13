@@ -3,6 +3,10 @@
   "version": "0.0.1",
   "description": "hapi plugin for i18n and translation of default joi error messages",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ozum/joi18n.git"
+  },
   "scripts": {
     "doc": "cat README-JSDOC.md History.md LICENSE > README.md;",
     "test": "lab"
