@@ -1,0 +1,7 @@
+{
+  "detail": "This file contain locale configuration",
+  "options": {
+    "why": "To test deeply nested config key",
+    "locales": ["en_US", "tr_TR"]
+  }
+}
