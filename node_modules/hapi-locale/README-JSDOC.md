@@ -224,16 +224,16 @@ Examples
 
 ### Routes
 
-| **ROUTE**           | **REQUEST**                   | **HEADER**                | **LOCALE**      | **REASON (Default Config)**
-|---------------------|-------------------------------|---------------------------|-----------------|-----------------------|
-| /{lang}/account     | GET /en_US/account            |                           | en_US           | Path                  |
-| /{lang}/account     | GET /tr_TR/account?lang=fr_FR | accept-language=jp_JP     | tr_TR           | Path has more priority|
-| /api/{lang}/account | GET api/en_US/account         |                           | en_US           | Path                  |
-| /account            | GET /account?lang=en_US       |                           | en_US           | Query                 |
-| /api/account        | GET api/account?lang=en_US    |                           | en_US           | Query                 |
-| /account            | GET /account                  | accept-language=en_US     | en_US           | Header                |
-| /{lang}/account     | GET /nonsense/account         |                           | *404*           | Not found URL         |
-| /account            | GET account?lang=nonsense     |                           | *Default Locale*| Not found URL         |
+| **ROUTE**           | **REQUEST**                   | **HEADER**                     | **LOCALE**      | **REASON (Default Config)**
+|---------------------|-------------------------------|--------------------------------|-----------------|-----------------------|
+| /{lang}/account     | GET /en_US/account            |                                | en_US           | Path                  |
+| /{lang}/account     | GET /tr_TR/account?lang=fr_FR | accept-language=jp_JP;jp;q=0.8 | tr_TR           | Path has more priority|
+| /api/{lang}/account | GET api/en_US/account         |                                | en_US           | Path                  |
+| /account            | GET /account?lang=en_US       |                                | en_US           | Query                 |
+| /api/account        | GET api/account?lang=en_US    |                                | en_US           | Query                 |
+| /account            | GET /account                  | accept-language=en_US;en;q=0.8 | en_US           | Header                |
+| /{lang}/account     | GET /nonsense/account         |                                | *404*           | Not found URL         |
+| /account            | GET account?lang=nonsense     |                                | *Default Locale*| Not found URL         |
 
 
 API

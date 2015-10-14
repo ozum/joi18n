@@ -56,7 +56,7 @@ describe('hapi-locale with config file', function() {
             method: "GET",
             url: "/locale",
             headers: {
-                "Accept-Language": "tr_TR"
+                "Accept-Language": "tr-TR,tr;q=0.8"
             }
         };
 
@@ -116,7 +116,7 @@ describe('hapi-locale with scan dir', function() {
             method: "GET",
             url: "/locale",
             headers: {
-                "accept-language": "tr_TR"
+                "accept-language": "tr-TR,tr;q=0.8"
             }
         };
 

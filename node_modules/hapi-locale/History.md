@@ -5,6 +5,9 @@ History & Notes
 ================
 Note: Simple documentation updates are not listed here.
 
+#### 0.4.4 / 2015-10-14
+* Fixed: Accept language header parsed wrong.
+
 #### 0.4.3 / 2015-10-13
 * Changed: Tests ported from Mocha/Chai to Lab/Code.
 * Fixed: Created setter function does not work.
