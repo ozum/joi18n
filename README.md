@@ -40,7 +40,7 @@ Currently available languages
 
 History & Notes
 ================
-### 1.0.0 / 2015-09-16
+### 0.0.1 / 2015-09-16
 * Initial version
 
 LICENSE
