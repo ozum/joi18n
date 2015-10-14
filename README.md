@@ -11,7 +11,7 @@ Synopsis
     var server = new hapi.Server();
     var plugins = [
         {register: require('hapi-locale')},
-        {register: require('../index.js')}
+        {register: require('joi18n')}
     ];
     
     server.connection();
