@@ -29,8 +29,12 @@ To be stay simple, this module does not use any 18n module for translation, it s
 
 Contribution
 ============
-Needs translation contribution. Contributors can create translation of json files under locales directory.
+I need help for translating json files located in locales directory. Please send pull request on [github repository](https://github.com/ozum/joi18n) for translated json files.
 
+Currently available languages
+-----------------------------
+* English (en_US)
+* Turkish (tr_TR)
 
 ---------------------------------------
 
