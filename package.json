@@ -1,6 +1,6 @@
 {
   "name": "joi18n",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "hapi plugin for i18n and translation of default joi error messages",
   "main": "index.js",
   "repository": {
