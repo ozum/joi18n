@@ -12,21 +12,24 @@ var describe    = lab.describe;
 var it          = lab.it;
 var expect      = Code.expect;
 
-var scan                = module.__get__('scan');
-var getAvailableLocales = module.__get__('getAvailableLocales');
-var defaultOptions      = module.__get__('defaultOptions');
-var options             = Hoek.applyToDefaults(defaultOptions, {
+var Internal            = module.__get__('Internal');
+
+
+
+var options = {
     configFile: path.join(__dirname, 'config-files', 'config-default.json'),
     scan: {
         path: path.join(__dirname, 'locales')
     }
-});
+};
+var internal = new Internal(options);
+
 
 
 describe('scan', function() {
     "use strict";
     it('should scan files and directories', function(done) {
-        expect(scan(options.scan)).to.deep.equal(['en', 'en_US', 'fr_FR', 'jp_JP', 'tr_TR' ]);
+        expect(internal.scan()).to.deep.equal(['en', 'en_US', 'fr_FR', 'jp_JP', 'tr_TR' ]);
         done();
     });
 
@@ -37,7 +40,9 @@ describe('scan', function() {
                 directories: false
             }
         });
-        expect(scan(localOptions.scan)).to.deep.equal(['en', 'en_US', 'tr_TR' ]);
+        var internal = new Internal(localOptions);
+
+        expect(internal.scan()).to.deep.equal(['en', 'en_US', 'tr_TR' ]);
         done();
     })
 });
@@ -47,7 +52,7 @@ describe('scan', function() {
 describe('getAvailableLocales', function() {
     "use strict";
     it('should return for default config', function(done) {
-        expect(getAvailableLocales(options)).to.deep.equal(["en_US", "tr_TR", "fr_FR"]);
+        expect(internal.getAvailableLocales()).to.deep.equal(["en_US", "tr_TR", "fr_FR"]);
         done();
     });
 
@@ -56,7 +61,8 @@ describe('getAvailableLocales', function() {
             configFile: path.join(__dirname, 'config-files', 'config-deep.json'),
             configKey: 'options.locales'
         });
-        expect(getAvailableLocales(localOptions)).to.deep.equal(["en_US", "tr_TR"]);
+        var internal = new Internal(localOptions);
+        expect(internal.getAvailableLocales()).to.deep.equal(["en_US", "tr_TR"]);
         done();
     });
 
@@ -64,12 +70,17 @@ describe('getAvailableLocales', function() {
         var localOptions = Hoek.applyToDefaults(options, {
             configFile: path.join(__dirname, 'config-files', 'config-empty.json'),
         });
-        expect(getAvailableLocales(localOptions)).to.deep.equal(['en', 'en_US', 'fr_FR', 'jp_JP', 'tr_TR' ]);
+        var internal = new Internal(localOptions);
+        expect(internal.getAvailableLocales()).to.deep.equal(['en', 'en_US', 'fr_FR', 'jp_JP', 'tr_TR' ]);
         done();
     });
 
     it('should prioritize options', function(done) {
-        expect(getAvailableLocales({locales: ['tr_TR']})).to.deep.equal(['tr_TR']);
+        var localOptions = Hoek.applyToDefaults(options, {
+            locales: ['tr_TR']
+        });
+        var internal = new Internal(localOptions);
+        expect(internal.getAvailableLocales()).to.deep.equal(['tr_TR']);
         done();
     });
 });

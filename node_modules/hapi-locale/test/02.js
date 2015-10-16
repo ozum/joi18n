@@ -189,14 +189,14 @@ describe('hapi-locale with different order', function() {
     });
 
 
-    it('should return default language', function (done) {
+    it('should return second order language', function (done) {
         var options = {
             method: "GET",
             url: "/tr_TR/locale?lang=NA_NA"
         };
 
         server.inject(options, function(response) {
-            expect(response.result).to.deep.equal({ locale: 'en' });
+            expect(response.result).to.deep.equal({ locale: 'tr_TR' });
             done();
         });
     });

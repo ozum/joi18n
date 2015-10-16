@@ -21,13 +21,12 @@
   "author": "Özüm Eldoğan",
   "license": "MIT",
   "dependencies": {
-    "hapi-locale": "^0.4.4",
+    "hapi-locale": "^1.0.2",
     "hoek": "^2.16.3"
   },
   "devDependencies": {
     "code": "^1.5.0",
     "hapi": "^10.4.1",
-    "hapi-locale": "^0.4.3",
     "joi": "^6.9.0",
     "lab": "^6.2.0"
   }

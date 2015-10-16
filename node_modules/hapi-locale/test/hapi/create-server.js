@@ -1,4 +1,13 @@
-var hapi        = require('hapi');
+var hapi        = require('hapi'),
+    rewire      = require('rewire'),
+    plugin      = rewire('../../lib/index.js'),
+    lodash      = require('lodash');
+
+var defaultOptions  = plugin.__get__('defaultOptions'),
+    getter          = defaultOptions.getter,
+    setter          = defaultOptions.setter;
+
+
 
 module.exports = function defineRoutes(plugins) {
     "use strict";
@@ -14,23 +23,27 @@ module.exports = function defineRoutes(plugins) {
             path: "/locale",
             method: "GET",
             handler: function(request, reply) {
-                reply({ locale: request.i18n.getLocale() });
+                var getLocale = lodash.get(request, getter);
+                reply({ locale: getLocale() });
             }
         },
         {
             path: "/{lang}/locale",
             method: "GET",
             handler: function(request, reply) {
-                reply({ locale: request.i18n.getLocale() });
+                var getLocale = lodash.get(request, getter);
+                reply({ locale: getLocale() });
             }
         },
         {
             path: "/getter-setter",
             method: "GET",
             handler: function(request, reply) {
-                request.i18n.setLocale('ru_RU');
+                var getLocale = lodash.get(request, getter);
+                var setLocale = lodash.get(request, setter);
+                setLocale('ru_RU');
                 reply({
-                    locale: request.i18n.getLocale()
+                    locale: getLocale()
                 });
             }
         },

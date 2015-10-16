@@ -56,8 +56,8 @@ describe('hapi-locale', function() {
                 scan: {
                     path: path.join(__dirname, 'locales')
                 },
-                createGetterOn: null,
-                createSetterOn: null,
+                getter: null,
+                setter: null,
                 callback: null
             }
         }
