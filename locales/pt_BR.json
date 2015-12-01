@@ -55,7 +55,7 @@
   },
   "object": {
     "base": "deve ser um objeto",
-    "child": "filho \"{{!key}}\" falha, pois {{reason}}",
+    "child": "falha em \"{{!key}}\", pois {{reason}}",
     "min": "deve conter no mínimo {{limit}} filhos",
     "max": "deve conter no máximo {{limit}} filhos",
     "length": "deve conter {{limit}} filhos",
@@ -69,8 +69,8 @@
     "nand": "!!\"{{main}}\" não deve existir juntamente com {{peers}}",
     "assert": "!!\"{{ref}}\" validação falha, pois \"{{ref}}\" falhou em {{message}}",
     "rename": {
-      "multiple": "não pôde renomear filho \"{{from}}\" pois muitas renomeaçãoes estão desativadas e já havia sido renomeado para \"{{to}}\"",
-      "override": "não pôde renomear filho \"{{from}}\" pois sobrescrever está desabilitado e \"{{to}}\" já existe"
+      "multiple": "não pôde renomear \"{{from}}\" pois muitas renomeaçãoes estão desativadas e já havia sido renomeado para \"{{to}}\"",
+      "override": "não pôde renomear \"{{from}}\" pois sobrescrever está desabilitado e \"{{to}}\" já existe"
     },
     "type": "deve ser um instância de \"{{type}}\""
   },
