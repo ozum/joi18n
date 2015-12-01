@@ -10,7 +10,7 @@
     "empty": "não é permitido ser vazio",
     "required": "é obrigatório",
     "allowOnly": "precisa ser um dos seguintes valores: {{valids}}",
-    "default": ""ocorreu um erro ao executar o método padrão"
+    "default": "ocorreu um erro ao executar o método padrão"
   },
   "alternatives": {
     "base": "não corresponde a nenhuma altenativa válida"
