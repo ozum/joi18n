@@ -27,7 +27,7 @@
     "excludes": "na posição {{pos}} contém um valor excluído",
     "excludesSingle": "valor único de \"{{!key}}\" contém um valor excluído",
     "min": "deve conter no mínimo {{limit}} itens",
-    "max": deve conter menos que ou igual a {{limit}} itens",
+    "max": "deve conter menos que ou igual a {{limit}} itens",
     "length": "deve conter {{limit}} itens",
     "ordered": "na posição {{pos}}  falha, pois {{reason}}",
     "orderedLength": "na posição {{pos}} falha, pois a matriz deve conter até {{limit}} itens",
