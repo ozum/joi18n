@@ -9,7 +9,10 @@
   },
   "scripts": {
     "doc": "cat README-JSDOC.md History.md LICENSE > README.md;",
-    "test": "lab"
+    "test": "lab",
+    "preversion": "npm run doc && eslint lib &&  npm test",
+    "version": "npm run build && git add -A dist",
+    "postversion": "git push && git push --tags && rm -rf build/temp"
   },
   "keywords": [
     "hapi",
