@@ -1,6 +1,6 @@
 {
   "name": "joi18n",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "hapi plugin for i18n and translation of default joi error messages",
   "main": "index.js",
   "repository": {
@@ -11,7 +11,6 @@
     "doc": "cat README-JSDOC.md History.md LICENSE > README.md;",
     "test": "lab",
     "preversion": "npm run doc && eslint lib &&  npm test",
-    "version": "git add -A dist",
     "postversion": "git push && git push --tags && rm -rf build/temp"
   },
   "keywords": [
