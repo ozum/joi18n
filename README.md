@@ -25,7 +25,7 @@ Synopsis
 
 How it works?
 =============
-To be stay simple, this module does not use any 18n module for translation, it simply assigns language specific JSON to validation options via `route.settings.validate.options.language`. 
+To keep it simple, this module does not use any i18n module for translation, it simply assigns language specific JSON to validation options via `route.settings.validate.options.language`. 
 
 Contribution
 ============
