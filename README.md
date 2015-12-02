@@ -36,16 +36,19 @@ Currently available languages
 * English (en_US)
 * Turkish (tr_TR)
 * Brazilian Portuguese (pt_BR). Thanks to [Rafael Amorim](https://github.com/rafaelamorim)
----------------------------------------
 
-History & Notes
-================
-### 0.0.1 / 2015-09-16
+
+# History & Notes
+
+###### 0.0.11 / 2015-12-02
+* Added: Brazilian Portuguese (pt_BR). Thanks to [Rafael Amorim](https://github.com/rafaelamorim).
+
+###### 0.0.1 / 2015-09-16
 * Initial version
+
 
 LICENSE
 =======
-
 The MIT License (MIT)
 
 Copyright (c) 2015 Özüm Eldoğan

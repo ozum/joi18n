@@ -11,6 +11,7 @@
     "doc": "cat README-JSDOC.md History.md LICENSE > README.md;",
     "test": "lab",
     "preversion": "npm run doc && eslint lib &&  npm test",
+    "version": "git add -A site",
     "postversion": "git push && git push --tags && rm -rf build/temp"
   },
   "keywords": [
