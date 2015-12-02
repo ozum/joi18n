@@ -36,3 +36,4 @@ Currently available languages
 * English (en_US)
 * Turkish (tr_TR)
 * Brazilian Portuguese (pt_BR). Thanks to [Rafael Amorim](https://github.com/rafaelamorim)
+
