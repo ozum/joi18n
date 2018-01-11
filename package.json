@@ -10,7 +10,7 @@
   "scripts": {
     "doc": "cat README-JSDOC.md History.md LICENSE > README.md;",
     "test": "lab --globals Reflect,SharedArrayBuffer,Atomics,WebAssembly",
-    "preversion": "npm run doc && eslint lib &&  npm test;",
+    "preversion": "npm run doc && npm test;",
     "version": "git add -A;",
     "postversion": "git push && git push --tags && npm publish;"
   },
