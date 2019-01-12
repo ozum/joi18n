@@ -1,6 +1,9 @@
 
 # History & Notes
 
+###### 2.0.1 / 2019-01-12
+* Added: Major version bump by mistake :)
+
 ###### 2.0.0 / 2019-01-12
 * Added: Major version bump by mistake :)
 
