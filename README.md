@@ -33,6 +33,8 @@ Contribution
 ============
 I need help for translating json files located in locales directory. Please send pull request on [github repository](https://github.com/ozum/joi18n) for translated json files.
 
+**Please Note**: Do **not** update `README.md` directly. Update `README-JSDOC.md` to add your name, because `README.md` is generated from it automatically.
+
 Currently available languages
 -----------------------------
 * German (de_DE). Thanks to [Koji Wakayama](https://github.com/kojiwakayama)
@@ -47,6 +49,48 @@ Currently available languages
 ###### 0.0.19 / 2018-01-11
 * Added: French. Thanks to [eole1712](https://github.com/eole1712)
 
+
+###### 0.0.18 / 2016-02-11
+* Fix: Used options.directory instead of using hard coded the directory locales. (@thebergamo)
+
+###### 0.0.11 / 2015-12-02
+* Added: Brazilian Portuguese (pt_BR). Thanks to [Rafael Amorim](https://github.com/rafaelamorim).
+
+###### 0.0.1 / 2015-09-16
+* Initial version
+
+
+LICENSE
+=======
+The MIT License (MIT)
+
+Copyright (c) 2015 Özüm Eldoğan
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+# History & Notes
+
+###### 1.0.0 / 2019-01-12
+* Added: Hapi 17 support. (Major version bumb) Thanks to [tiberiuana](https://github.com/tiberiuana)
+
+###### 0.0.19 / 2018-01-11
+* Added: French. Thanks to [eole1712](https://github.com/eole1712)
 
 ###### 0.0.18 / 2016-02-11
 * Fix: Used options.directory instead of using hard coded the directory locales. (@thebergamo)
