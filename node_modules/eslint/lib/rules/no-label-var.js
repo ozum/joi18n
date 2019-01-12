@@ -6,66 +6,67 @@
 "use strict";
 
 //------------------------------------------------------------------------------
+// Requirements
+//------------------------------------------------------------------------------
+
+const astUtils = require("../util/ast-utils");
+
+//------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-module.exports = function(context) {
+module.exports = {
+    meta: {
+        type: "suggestion",
 
-    //--------------------------------------------------------------------------
-    // Helpers
-    //--------------------------------------------------------------------------
+        docs: {
+            description: "disallow labels that share a name with a variable",
+            category: "Variables",
+            recommended: false,
+            url: "https://eslint.org/docs/rules/no-label-var"
+        },
 
-    /**
-     * Check if the identifier is present inside current scope
-     * @param {object} scope current scope
-     * @param {ASTNode} identifier To evaluate
-     * @returns {boolean} True if its present
-     * @private
-     */
-    function findIdentifier(scope, identifier) {
-        var found = false;
+        schema: []
+    },
 
-        scope.variables.forEach(function(variable) {
-            if (variable.name === identifier) {
-                found = true;
-            }
-        });
+    create(context) {
 
-        scope.references.forEach(function(reference) {
-            if (reference.identifier.name === identifier) {
-                found = true;
-            }
-        });
+        //--------------------------------------------------------------------------
+        // Helpers
+        //--------------------------------------------------------------------------
 
-        // If we have not found the identifier in this scope, check the parent
-        // scope.
-        if (scope.upper && !found) {
-            return findIdentifier(scope.upper, identifier);
+        /**
+         * Check if the identifier is present inside current scope
+         * @param {Object} scope current scope
+         * @param {string} name To evaluate
+         * @returns {boolean} True if its present
+         * @private
+         */
+        function findIdentifier(scope, name) {
+            return astUtils.getVariableByName(scope, name) !== null;
         }
 
-        return found;
+        //--------------------------------------------------------------------------
+        // Public API
+        //--------------------------------------------------------------------------
+
+        return {
+
+            LabeledStatement(node) {
+
+                // Fetch the innermost scope.
+                const scope = context.getScope();
+
+                /*
+                 * Recursively find the identifier walking up the scope, starting
+                 * with the innermost scope.
+                 */
+                if (findIdentifier(scope, node.label.name)) {
+                    context.report({ node, message: "Found identifier with same name as label." });
+                }
+            }
+
+        };
+
     }
-
-    //--------------------------------------------------------------------------
-    // Public API
-    //--------------------------------------------------------------------------
-
-    return {
-
-        "LabeledStatement": function(node) {
-
-            // Fetch the innermost scope.
-            var scope = context.getScope();
-
-            // Recursively find the identifier walking up the scope, starting
-            // with the innermost scope.
-            if (findIdentifier(scope, node.label.name)) {
-                context.report(node, "Found identifier with same name as label.");
-            }
-        }
-
-    };
-
 };
-
-module.exports.schema = [];

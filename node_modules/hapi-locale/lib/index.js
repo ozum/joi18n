@@ -6,15 +6,16 @@
  * @description
  * Configurable plugin for determine request language in hapi.js applications.
  */
-var Boom            = require('boom'),
-    fs              = require('fs'),
-    path            = require('path'),
-    lodash          = require('lodash'),
-    headerParser    = require('accept-language-parser'),
-    Joi             = require('joi');
+const Boom = require('boom'),
+    fs = require('fs'),
+    path = require('path'),
+    lodash = require('lodash'),
+    headerParser = require('accept-language-parser'),
+    Joi = require('joi'),
+    pkg = require("../package");
 
-var rootDir     = path.join(__dirname, '../../..');
-var locales     = [];
+var rootDir = path.join(__dirname, '../../..');
+var locales = [];
 
 /**
  * @typedef {Object}                    PluginOptions                   - Plugin configuration options.
@@ -46,60 +47,60 @@ var locales     = [];
  * @private
  */
 var defaultOptions = {
-    locales         : [],
-    configFile      : path.join(rootDir, 'package.json'),
-    configKey       : 'locales',
-    scan            : {
-        path        : path.join(rootDir, 'locales'),
-        fileType    : 'json',
-        directories : true,
-        exclude     : ['templates', 'template.json']
+    locales: [],
+    configFile: path.join(rootDir, 'package.json'),
+    configKey: 'locales',
+    scan: {
+        path: path.join(rootDir, 'locales'),
+        fileType: 'json',
+        directories: true,
+        exclude: ['templates', 'template.json']
     },
-    param           : 'lang',
-    query           : 'lang',
-    cookie          : 'lang',
-    cookieKey       : 'lang',
-    header          : 'accept-language',
-    order           : ['params', 'cookie', 'query', 'headers'],
-    throw404        : true,
-    getter          : 'i18n.getLocale',
-    setter          : 'i18n.setLocale',
-    attribute       : 'i18n.locale',
-    createAccessors : true,
-    onEvent         : 'onPreAuth'
+    param: 'lang',
+    query: 'lang',
+    cookie: 'lang',
+    cookieKey: 'lang',
+    header: 'accept-language',
+    order: ['params', 'cookie', 'query', 'headers'],
+    throw404: true,
+    getter: 'i18n.getLocale',
+    setter: 'i18n.setLocale',
+    attribute: 'i18n.locale',
+    createAccessors: true,
+    onEvent: 'onPreAuth'
 };
 
 var orderParameters = {
     // Process in options.order array and JS method which will be called for that process.
-    params  : 'parseParam',
-    query   : 'parseQuery',
-    headers : 'parseHeader',
-    cookie  : 'parseCookie'
+    params: 'parseParam',
+    query: 'parseQuery',
+    headers: 'parseHeader',
+    cookie: 'parseCookie'
 };
 
 var optionsSchema = {
-    locales         : Joi.array().items(Joi.string()).default(defaultOptions.locales),
-    default         : Joi.string().allow(null).default(defaultOptions.default),
-    configFile      : Joi.string().allow(null).default(defaultOptions.configFile),
-    configKey       : Joi.string().allow(null).default(defaultOptions.configKey),
-    scan            : Joi.object({
-        path        : Joi.string().default(defaultOptions.scan.path),
-        fileType    : Joi.string().default(defaultOptions.scan.fileType),
-        directories : Joi.boolean().default(defaultOptions.scan.directories),
-        exclude     : Joi.array().items(Joi.string()).allow(null).default(defaultOptions.scan.exclude)
+    locales: Joi.array().items(Joi.string()).default(defaultOptions.locales),
+    default: Joi.string().allow(null).default(defaultOptions.default),
+    configFile: Joi.string().allow(null).default(defaultOptions.configFile),
+    configKey: Joi.string().allow(null).default(defaultOptions.configKey),
+    scan: Joi.object({
+        path: Joi.string().default(defaultOptions.scan.path),
+        fileType: Joi.string().default(defaultOptions.scan.fileType),
+        directories: Joi.boolean().default(defaultOptions.scan.directories),
+        exclude: Joi.array().items(Joi.string()).allow(null).default(defaultOptions.scan.exclude)
     }).allow(null).default(defaultOptions.scan),
-    param           : Joi.string().allow(null).default(defaultOptions.param),
-    query           : Joi.string().allow(null).default(defaultOptions.query),
-    cookie          : Joi.string().allow(null).default(defaultOptions.cookie),
-    cookieKey       : Joi.string().allow(null).default(defaultOptions.cookieKey),
-    header          : Joi.string().allow(null).default(defaultOptions.header),
-    order           : Joi.array().items(Joi.any().valid(Object.keys(orderParameters))).default(defaultOptions.order),
-    throw404        : Joi.boolean().default(defaultOptions.throw404),
-    getter          : Joi.string().allow(null).default(defaultOptions.getter),
-    setter          : Joi.string().allow(null).default(defaultOptions.setter),
-    attribute       : Joi.string().allow(null).default(defaultOptions.attribute),
-    createAccessors : Joi.string().allow(null).default(defaultOptions.createAccessors),
-    onEvent         : Joi.string().default(defaultOptions.onEvent)
+    param: Joi.string().allow(null).default(defaultOptions.param),
+    query: Joi.string().allow(null).default(defaultOptions.query),
+    cookie: Joi.string().allow(null).default(defaultOptions.cookie),
+    cookieKey: Joi.string().allow(null).default(defaultOptions.cookieKey),
+    header: Joi.string().allow(null).default(defaultOptions.header),
+    order: Joi.array().items(Joi.any().valid(Object.keys(orderParameters))).default(defaultOptions.order),
+    throw404: Joi.boolean().default(defaultOptions.throw404),
+    getter: Joi.string().allow(null).default(defaultOptions.getter),
+    setter: Joi.string().allow(null).default(defaultOptions.setter),
+    attribute: Joi.string().allow(null).default(defaultOptions.attribute),
+    createAccessors: Joi.string().allow(null).default(defaultOptions.createAccessors),
+    onEvent: Joi.string().default(defaultOptions.onEvent)
 };
 
 /**
@@ -108,15 +109,15 @@ var optionsSchema = {
  * @constructor
  * @private
  */
-var Internal = function(options) {
+var Internal = function (options) {
     "use strict";
     if ((options.setter && options.setter.indexOf('.') > -1) || (options.getter && options.getter.indexOf('.') > -1)) {
         throw new Error('Getter (' + options.getter + ') and setter (' + options.setter + ') methods cannot be nested, so they cannot contain dot(.)');
     }
 
-    this.options    = Joi.attempt(options, optionsSchema);
-    this.locales    = this.getAvailableLocales();
-    this.default    = this.options.default || this.locales[0];
+    this.options = Joi.attempt(options, optionsSchema);
+    this.locales = this.getAvailableLocales();
+    this.default = this.options.default || this.locales[0];
     //this.callback   = this.getCallback(this.options.callback);
 };
 
@@ -129,9 +130,9 @@ var Internal = function(options) {
 Internal.prototype.parseParam = function parseParam(request) {
     "use strict";
     if (!request.params.hasOwnProperty(this.options.param)) return;
-    var name    = this.options.param,
+    var name = this.options.param,
         locales = lodash.get(request.params, name),
-        match   = this.bestMatch(locales);
+        match = this.bestMatch(locales);
 
     if (!match && this.options.throw404) {
         throw new Error('Requested locale/language ' + locales + ' cannot be found.');
@@ -148,7 +149,7 @@ Internal.prototype.parseParam = function parseParam(request) {
  */
 Internal.prototype.parseQuery = function parseQuery(request) {
     "use strict";
-    var name    = this.options.query,
+    var name = this.options.query,
         locales = lodash.get(request.query, name);
 
     return this.bestMatch(locales);
@@ -162,8 +163,8 @@ Internal.prototype.parseQuery = function parseQuery(request) {
  */
 Internal.prototype.parseCookie = function parseCookie(request) {
     "use strict";
-    var name    = this.options.cookie,
-        key     = this.options.cookieKey,
+    var name = this.options.cookie,
+        key = this.options.cookieKey,
         locales = lodash.get(request.state[name], key);
 
     return this.bestMatch(locales);
@@ -176,9 +177,9 @@ Internal.prototype.parseCookie = function parseCookie(request) {
  * @private
  */
 Internal.prototype.parseHeader = function parseHeader(request) {
-    var name    = this.options.header,
-        raw     = headerParser.parse(request.headers[name]),
-        locales = raw.map(function(value) {
+    var name = this.options.header,
+        raw = headerParser.parse(request.headers[name]),
+        locales = raw.map(function (value) {
             return value.region ? value.code + '_' + value.region : value.code;
         });
 
@@ -212,14 +213,17 @@ function fileExists(path, shouldBeDir) {
     "use strict";
     try {
         var lstat = fs.lstatSync(path);
-        if (shouldBeDir && lstat.isDirectory()) { return true; }
-        if (!shouldBeDir && lstat.isFile()) { return true; }
-    } catch(err) {
+        if (shouldBeDir && lstat.isDirectory()) {
+            return true;
+        }
+        if (!shouldBeDir && lstat.isFile()) {
+            return true;
+        }
+    } catch (err) {
         return false;
     }
     return false;
 }
-
 
 
 /**
@@ -234,8 +238,8 @@ Internal.prototype.scan = function scan() {
         throw new Error('Locales directory "' + this.options.scan.path + '"cannot be found.');
     }
 
-    let dir     = this.options.scan.path,
-        files   = fs.readdirSync(dir),
+    let dir = this.options.scan.path,
+        files = fs.readdirSync(dir),
         locales = [];
 
     for (let file of files) {
@@ -249,7 +253,7 @@ Internal.prototype.scan = function scan() {
         locales.push(path.basename(file, path.extname(file)));  // Strip extension such as .json
     }
 
-    return lodash.unique(locales);
+    return lodash.uniq(locales);
 };
 
 
@@ -292,7 +296,7 @@ Internal.prototype.getAvailableLocales = function getAvailableLocales() {
         throw new Error('Cannot found any locale.')
     }
 
-     return lodash.unique(locales);
+    return lodash.uniq(locales);
 };
 
 
@@ -313,33 +317,32 @@ Internal.prototype.determineLocale = function determineLocale(request) {
 };
 
 
-
 /**
  *
  * @param {Object}              request - hapi.js request object
  * @param {Function}            reply   - hapi.js reply object
  * @returns {*}
  */
-Internal.prototype.processRequest = function processRequest(request, reply) {
+Internal.prototype.processRequest = function processRequest(request, h) {
     "use strict";
     try {
         var locale = this.determineLocale(request);
-    } catch(err) {
-        return reply(Boom.notFound(err));
+    } catch (err) {
+        throw Boom.notFound(err);
     }
 
-    let getter      = this.options.getter,
-        setter      = this.options.setter,
-        attribute   = this.options.attribute;
+    let getter = this.options.getter,
+        setter = this.options.setter,
+        attribute = this.options.attribute;
 
     // Create accessors if necessary
     if (this.options.createAccessors) {
-        if (! lodash.get(request, getter)) {
-            lodash.set(request, getter, function() {
+        if (!lodash.get(request, getter)) {
+            lodash.set(request, getter, function () {
                 return lodash.get(request, attribute);
             });
         }
-        if (! lodash.get(request, setter)) {
+        if (!lodash.get(request, setter)) {
             lodash.set(request, setter, function (locale) {
                 return lodash.set(request, attribute, locale);
             });
@@ -349,73 +352,74 @@ Internal.prototype.processRequest = function processRequest(request, reply) {
     // Call setter.
     lodash.get(request, setter)(locale);
 
-    return reply.continue();
+    return h.continue;
 };
 
 
-
-
-
-/**
- * Hapi plugin function which adds i18n support to request and response objects.
- * @param {Object}          server      - Hapi server object
- * @param {PluginOptions}   options     - Plugin configuration options.
- * @param {Function}        next        - Callback function.
- */
-exports.register = function(server, options, next) {
-    try {
-        var internal = new Internal(options);
-    } catch(err) {
-        return next(err);
-    }
-
+exports.plugin = {
+    name: pkg.name,
+    version: pkg.version,
+    pkg: pkg,
+    once: true,
+    multiple: false,
     /**
-     * @module exposed
-     * @description
-     * Exposed functions and attributes are listed under exposed name.
-     * To access those attributes `request.server.plugins['hapi-locale']` can be used.
-     * @example
-     * var locales = request.server.plugins['hapi-locale'].getLocales(); // ['tr_TR', 'en_US'] etc.
+     * Hapi plugin function which adds i18n support to request and response objects.
+     * @param {Object}          server      - Hapi server object
+     * @param {PluginOptions}   options     - Plugin configuration options.
      */
-
-    /**
-     * Returns all available locales as an array.
-     * @name getLocales
-     * @function
-     * @returns {Array.<string>}    - Array of locales.
-     * @example
-     * var locales = request.server.plugins['hapi-locale'].getLocales(); // ['tr_TR', 'en_US'] etc.
-     */
-    server.expose('getLocales', function getLocales() { return internal.locales; } );
-
-    /**
-     * Returns default locale.
-     * @name getDefaultLocale
-     * @function
-     * @returns {string}    - Default locale
-     */
-    server.expose('getDefaultLocale', function getDefaultLocale() { return internal.default; } );
-
-    /**
-     * Returns requested language.
-     * @name getLocale
-     * @function
-     * @param {Object}      request - Hapi.js request object
-     * @returns {string}    Locale
-     */
-    server.expose('getLocale', function getLocale(request) {
+    register: async function (server, options) {
         try {
-            return lodash.get(request, internal.options.getter)();
-        } catch(err) {
-            return null;
+            var internal = new Internal(options);
+        } catch (err) {
+            throw new Boom(err);
         }
-    });
 
-    server.ext(internal.options.onEvent, internal.processRequest, { bind: internal });
+        /**
+         * @module exposed
+         * @description
+         * Exposed functions and attributes are listed under exposed name.
+         * To access those attributes `request.server.plugins['hapi-locale']` can be used.
+         * @example
+         * var locales = request.server.plugins['hapi-locale'].getLocales(); // ['tr_TR', 'en_US'] etc.
+         */
 
-    return next();
-};
+        /**
+         * Returns all available locales as an array.
+         * @name getLocales
+         * @function
+         * @returns {Array.<string>}    - Array of locales.
+         * @example
+         * var locales = request.server.plugins['hapi-locale'].getLocales(); // ['tr_TR', 'en_US'] etc.
+         */
+        server.expose('getLocales', function getLocales() {
+            return internal.locales;
+        });
 
-exports.register.attributes = {
-    pkg: require('./../package.json')
+        /**
+         * Returns default locale.
+         * @name getDefaultLocale
+         * @function
+         * @returns {string}    - Default locale
+         */
+        server.expose('getDefaultLocale', function getDefaultLocale() {
+            return internal.default;
+        });
+
+        /**
+         * Returns requested language.
+         * @name getLocale
+         * @function
+         * @param {Object}      request - Hapi.js request object
+         * @returns {string}    Locale
+         */
+        server.expose('getLocale', function getLocale(request) {
+            try {
+                return lodash.get(request, internal.options.getter)();
+            } catch (err) {
+                return null;
+            }
+        });
+
+        server.ext(internal.options.onEvent, internal.processRequest, {bind: internal});
+    }
 };
