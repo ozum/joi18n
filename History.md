@@ -1,6 +1,9 @@
 
 # History & Notes
 
+###### 2.0.0 / 2019-01-12
+* Added: Major version bump by mistake :)
+
 ###### 1.0.0 / 2019-01-12
 * Added: Hapi 17 support. (Major version bumb) Thanks to [tiberiuana](https://github.com/tiberiuana)
 
