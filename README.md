@@ -2,6 +2,8 @@ joi18n
 ======
 hapi plugin for i18n and translation of default joi error messages.
 
+Compatible with Hapi 17. For Hapi 16, use version 0.x.x.
+
 Description
 ===========
 Provides translated messages for joi default error messages. After registering this plugin default hapi error messages appears as translated.
@@ -33,10 +35,12 @@ I need help for translating json files located in locales directory. Please send
 
 Currently available languages
 -----------------------------
+* German (de_DE). Thanks to [Koji Wakayama](https://github.com/kojiwakayama)
 * English (en_US)
-* Turkish (tr_TR)
+* French (fr_FR). Thanks to [eole1712](https://github.com/eole1712)
 * Brazilian Portuguese (pt_BR). Thanks to [Rafael Amorim](https://github.com/rafaelamorim)
-
+* Russian (ru_RU). Thanks to [Ruslan Prokopenko](https://github.com/r-pr)
+* Turkish (tr_TR)
 
 # History & Notes
 

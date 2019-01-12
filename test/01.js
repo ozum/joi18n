@@ -1,67 +1,58 @@
 /*jslint node:true */
+"use strict";
 
-var hapi    = require('hapi'),
-    Joi     = require('joi'),
-    Lab     = require('lab'),
-    Code    = require('code');
+const Code = require("code");
+const hapi = require("hapi");
+const Joi = require("joi");
+const Lab = require("lab");
 
-var lab         = exports.lab = Lab.script();
-var describe    = lab.describe;
-var it          = lab.it;
-var expect      = Code.expect;
+const lab = (exports.lab = Lab.script());
+const before = lab.before;
+const describe = lab.describe;
+const it = lab.it;
+const expect = Code.expect;
 
-var server = new hapi.Server();
-var plugins = [
-    {register: require('hapi-locale')},
-    {register: require('../index.js')}
-];
+describe("joi18n", function() {
+  let server;
 
-server.connection();
+  before(async () => {
+    server = new hapi.Server();
 
-server.route([
-    {
+    server.route([
+      {
         path: "/{lang}/{age}/{no}/joi18n",
         method: "GET",
-        handler: function (request, reply) {
-            "use strict";
-            reply({ locale: request.i18n.getLocale() });
+        handler: async function(request, h) {
+          return { locale: request.i18n.getLocale() };
         },
         config: {
-            validate: {
-                params: {
-                    lang: Joi.string(),
-                    age: Joi.number(),
-                    no: Joi.number()
-                },
-                failAction: function (request, reply, source, error) {
-                    reply(error);
-                },
-                options: {
-                    abortEarly: false
-                }
+          validate: {
+            params: {
+              lang: Joi.string(),
+              age: Joi.number(),
+              no: Joi.number()
             },
+            failAction: function(request, h, error) {
+              return error;
+            },
+            options: {
+              abortEarly: false
+            }
+          }
         }
-    }
-]);
+      }
+    ]);
 
+    await server.register([require("hapi-locale"), require("../index.js")]);
+  });
 
-server.register(plugins, function (err) {
-    "use strict";
-    if (err) { throw err; }
-});
+  it("should return localized error.", async function() {
+    const options = {
+      method: "GET",
+      url: "/tr_TR/1a/1/joi18n"
+    };
+    const response = await server.inject(options);
 
-
-describe('joi18n', function() {
-    "use strict";
-    it('should return localized error.', function (done) {
-        var options = {
-            method: "GET",
-            url: "/tr_TR/1a/1/joi18n"
-        };
-
-        server.inject(options, function (response) {
-            expect(response.result.message).to.contain('sayı olmalı');
-            done();
-        });
-    });
+    expect(response.result.message).to.contain("sayı olmalı");
+  });
 });

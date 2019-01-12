@@ -1,6 +1,6 @@
 {
   "name": "joi18n",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "hapi plugin for i18n and translation of default joi error messages",
   "main": "index.js",
   "repository": {
@@ -24,13 +24,13 @@
   "author": "Özüm Eldoğan",
   "license": "MIT",
   "dependencies": {
-    "hapi-locale": "^1.0.2",
-    "hoek": "^2.16.3"
+    "hapi-locale": "^2.0.1",
+    "hoek": "^6.1.2"
   },
   "devDependencies": {
-    "code": "^1.5.0",
-    "hapi": "^10.4.1",
-    "joi": "^6.9.0",
-    "lab": "^6.2.0"
+    "code": "^5.2.4",
+    "hapi": "^17.0.0",
+    "joi": "^14.0.0",
+    "lab": "^18.0.1"
   }
 }
