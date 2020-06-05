@@ -35,12 +35,14 @@ I need help for translating json files located in locales directory. Please send
 
 Currently available languages
 -----------------------------
-* German (de_DE). Thanks to [Koji Wakayama](https://github.com/kojiwakayama)
-* English (en_US)
-* French (fr_FR). Thanks to [eole1712](https://github.com/eole1712)
 * Brazilian Portuguese (pt_BR). Thanks to [Rafael Amorim](https://github.com/rafaelamorim)
-* Russian (ru_RU). Thanks to [Ruslan Prokopenko](https://github.com/r-pr)
+* English (en_US)
+* French (fr_FR): Thanks to [eole1712](https://github.com/eole1712)
+* German (de_DE): Thanks to [Koji Wakayama](https://github.com/kojiwakayama)
+* Russian (ru_RU): Thanks to [Ruslan Prokopenko](https://github.com/r-pr)
+* Spanish (es_ES): Thanks to [Daniel Alcaraz](https://github.com/DanielAlcaraz)
 * Turkish (tr_TR)
+
 
 LICENSE
 =======
