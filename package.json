@@ -8,7 +8,7 @@
     "url": "https://github.com/ozum/joi18n.git"
   },
   "scripts": {
-    "test": "lab --globals Reflect,SharedArrayBuffer,Atomics,WebAssembly",
+    "test": "lab --globals Reflect,SharedArrayBuffer,Atomics,WebAssembly,globalThis",
     "preversion": "npm test;",
     "version": "git add -A;",
     "postversion": "git push && git push --tags && npm publish;"
@@ -24,12 +24,12 @@
   "license": "MIT",
   "dependencies": {
     "hapi-locale": "^2.0.1",
-    "hoek": "^6.1.2"
+    "hoek": "^6.1.3"
   },
   "devDependencies": {
     "code": "^5.2.4",
-    "hapi": "^17.0.0",
+    "hapi": "^18.1.0",
     "joi": "^14.0.0",
-    "lab": "^18.0.1"
+    "lab": "^18.0.2"
   }
 }
